@@ -1,0 +1,40 @@
+/ C++ code - Version asynchrone avec millis()
+int animationSpeed = 400;
+unsigned long previousMillis = 0; // Moment du dernier changement d'état
+int ledIndex = 0; // Pour suivre quelle LED est actuellement en train de clignoter
+
+void setup() {
+  pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(11, OUTPUT);
+  pinMode(9, OUTPUT);
+}
+
+void loop() {
+  unsigned long currentMillis = millis(); // Obtenir le temps actuel
+
+  // Si le temps écoulé depuis le dernier changement est supérieur à animationSpeed
+  if (currentMillis - previousMillis >= animationSpeed) {
+    previousMillis = currentMillis; // Mémoriser le temps actuel
+
+    // Faire clignoter les LEDs une à une
+    if (ledIndex == 0) {
+      digitalWrite(LED_BUILTIN, HIGH);
+      digitalWrite(11, LOW);
+      digitalWrite(9, LOW);
+    } else if (ledIndex == 1) {
+      digitalWrite(LED_BUILTIN, LOW);
+      digitalWrite(11, HIGH);
+      digitalWrite(9, LOW);
+    } else if (ledIndex == 2) {
+      digitalWrite(LED_BUILTIN, LOW);
+      digitalWrite(11, LOW);
+      digitalWrite(9, HIGH);
+    }
+
+    // Passer à la LED suivante
+    ledIndex++;
+    if (ledIndex > 2) {
+      ledIndex = 0; // Recommencer au début
+    }
+  }
+}
